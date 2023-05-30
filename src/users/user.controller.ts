@@ -24,7 +24,7 @@ export class UsersController {
     }
 
 
-    @Put('put/:id')
+    @Put(':id')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({summary:'update user'})
     @ApiResponse({status: HttpStatus.OK, type: UserEntity})
@@ -40,7 +40,7 @@ export class UsersController {
     }
 
 
-    @Delete('del/:id')
+    @Delete(':id')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({summary:'delete user'})
     @ApiResponse({status: HttpStatus.OK, type: UserEntity})
@@ -55,7 +55,7 @@ export class UsersController {
     }
 
 
-    @Get('get/:id')
+    @Get(':id')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({summary:'find user by user id'})
     @ApiResponse({status: HttpStatus.OK, type: UserEntity})
@@ -70,7 +70,7 @@ export class UsersController {
     }
 
 
-    @Get('getall/:id')
+    @Get(':id')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({summary:'find user by admin id'})
     @ApiResponse({status: HttpStatus.OK, type: [UserEntity]})
