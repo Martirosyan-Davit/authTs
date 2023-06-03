@@ -24,14 +24,14 @@ export class UsersService {
         const email = createUserDto.email
         const user = await this.userRepository
             .createQueryBuilder('user')
-            .where('user.email = :email', {email})
+            .where('user.email = :email', { email })
             .getOne();
 
-        if(user) 
+        if (user)
             throw new HttpException('User already created', HttpStatus.BAD_REQUEST);
 
-        const userEntity =  this.userRepository.create(createUserDto);
-        
+        const userEntity = this.userRepository.create(createUserDto);
+
         userEntity.password = UtilsProvider.generateHash(userEntity.password);
 
 
@@ -106,9 +106,9 @@ export class UsersService {
             .getOne();
 
         if ((await currentUser).admin)
-              return await this.userRepository
-                  .createQueryBuilder('users')
-                  .getMany();
+            return await this.userRepository
+                .createQueryBuilder('users')
+                .getMany();
     }
 
 

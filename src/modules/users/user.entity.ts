@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { AbstractEntity } from "src/abstract/abstract.entity";
+import { AbstractEntity } from "src/common/abstract.entity";
+import { RoleType } from "src/common/costants/role.type";
 import { Column, Entity } from "typeorm";
 
 
@@ -20,8 +21,8 @@ export class UserEntity extends AbstractEntity {
     password: string;
 
     @ApiProperty({example: 'true', description:'Admin or note'})
-    @Column({ type: 'boolean', nullable: false })
-    admin: boolean;
+    @Column({ type: 'enum', enum: RoleType, default: RoleType.USER })
+    role: RoleType;
 
 
 
