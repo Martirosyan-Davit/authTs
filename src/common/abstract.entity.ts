@@ -1,10 +1,10 @@
 import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { AbstractDto } from "./dto/abstract.dto";
-import { Constructor } from "../../src/types";
+import { Constructor, Uuid } from "../types";
 
 
 export interface IAbstractEntity<DTO extends AbstractDto = AbstractDto, O = never> {
-    id: string;
+    id: Uuid;
     createdAt: Date;
     updatedAt: Date;
 
@@ -17,7 +17,7 @@ DTO extends AbstractDto = AbstractDto,
  implements IAbstractEntity<DTO , O> {
 
     @PrimaryGeneratedColumn('uuid')
-    id: string;
+    id: Uuid;
 
     @CreateDateColumn({
         type: 'timestamp',

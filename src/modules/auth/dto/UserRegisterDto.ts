@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString, MinLength } from "class-validator";
 import { Trim } from "../../../decorators/transform.decorator";
 
 
@@ -17,6 +17,7 @@ export class UserRegisterDto{
     
     @IsString()
     @IsNotEmpty()
+    @MinLength(6)
     readonly password: string;
 
 }

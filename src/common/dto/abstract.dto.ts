@@ -1,10 +1,11 @@
+import { Uuid } from "../../types";
 import { AbstractEntity } from "../abstract.entity";
 
 
 export abstract class AbstractDto {
 
     
-    id: string;
+    id: Uuid;
 
     createdAt: Date;
 

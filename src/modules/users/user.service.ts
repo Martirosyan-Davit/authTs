@@ -5,22 +5,22 @@ import { FindOptionsWhere, Repository } from 'typeorm';
 import { isUUID } from 'class-validator';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UtilsProvider } from 'src/providers/utils.provider';
+import { UtilsProvider } from '../../providers/utils.provider';
 
 @Injectable()
-export class UsersService {
+export class UserService {
     constructor(
         @InjectRepository(UserEntity)
         private userRepository: Repository<UserEntity>,
     ) { }
 
 
-    //Find single user
-    // findOne(findData: FindOptionsWhere<UserEntity>): Promise<UserEntity | null> {
-    //     return this.usersRepository.findOneBy(findData)
-    // }
+    // Find single user
+    findOne(findData: FindOptionsWhere<UserEntity>): Promise<UserEntity | null> {
+        return this.userRepository.findOneBy(findData)
+    }
 
-    async create(createUserDto: CreateUserDto): Promise<CreateUserDto> {
+    async create(createUserDto: CreateUserDto): Promise<UserEntity> {
         const email = createUserDto.email
         const user = await this.userRepository
             .createQueryBuilder('user')
@@ -35,7 +35,10 @@ export class UsersService {
         userEntity.password = UtilsProvider.generateHash(userEntity.password);
 
 
-        return await this.userRepository.save(userEntity);
+         await this.userRepository.save(userEntity);
+
+         return userEntity;
+
     }
 
 
@@ -105,7 +108,7 @@ export class UsersService {
             .where('user.id = :id', { id })
             .getOne();
 
-        if ((await currentUser).admin)
+        if ((await currentUser).role)
             return await this.userRepository
                 .createQueryBuilder('users')
                 .getMany();

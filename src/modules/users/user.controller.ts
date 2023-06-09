@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, } from '@nestjs/common';
 import { CreateUserDto } from './dto/create.user.dto';
-import { UsersService } from './user.service';
+import { UserService } from './user.service';
 import { ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './user.entity';
@@ -8,7 +8,7 @@ import { UserEntity } from './user.entity';
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
-    constructor(private userService: UsersService) { }
+    constructor(private userService: UserService) { }
 
 
     @Post()

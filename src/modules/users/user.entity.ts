@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { AbstractEntity } from "src/common/abstract.entity";
-import { RoleType } from "src/common/costants/role.type";
+import { AbstractEntity } from "../../common/abstract.entity";
+import { RoleType } from "../../common/constants/role.type";
 import { Column, Entity } from "typeorm";
 
 

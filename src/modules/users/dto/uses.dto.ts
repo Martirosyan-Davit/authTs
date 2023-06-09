@@ -1,4 +1,4 @@
-import { RoleType } from "src/common/costants/role.type";
+import { RoleType } from "../../../common/constants/role.type";
 import { AbstractDto } from "src/common/dto/abstract.dto";
 import { UserEntity } from "../user.entity";
 

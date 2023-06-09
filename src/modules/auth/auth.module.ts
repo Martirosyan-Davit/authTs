@@ -2,7 +2,7 @@ import { Module, forwardRef } from "@nestjs/common";
 import { UsersModule } from "../users/user.module";
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from "@nestjs/jwt";
-import { ApiConfigService } from "src/service/api-config.service";
+import { ApiConfigService } from "../../service/api-config.service";
 
 
 

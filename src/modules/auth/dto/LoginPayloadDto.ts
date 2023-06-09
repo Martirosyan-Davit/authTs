@@ -1,4 +1,4 @@
-import { UserDto } from "src/modules/users/dto/uses.dto";
+import { UserDto } from "../../users/dto/uses.dto";
 import { TokenPayloadDto } from "./TokenPayloadDto";
 
 
