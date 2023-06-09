@@ -16,7 +16,7 @@ export class AuthController {
         private authService: AuthService) { }
 
     @Post('login')
-    @HttpCode(HttpStatus.OK)
+    @HttpCode(HttpStatus.OK)  
     @ApiOkResponse({
         type: LoginPayloadDto,
         description: 'User info with access token',

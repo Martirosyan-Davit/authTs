@@ -3,12 +3,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from "@nestjs/config";
 import { UsersModule } from "./modules/users/user.module";
 import { UserEntity } from "./modules/users/user.entity";
+import { AuthModule } from "./modules/auth/auth.module";
 
 
 @Module({
   controllers: [],
   providers: [],
   imports: [
+    UsersModule,
+    AuthModule,
+
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env'
@@ -25,7 +29,7 @@ import { UserEntity } from "./modules/users/user.entity";
       migrations: ['src/migrations/*{.ts,.js}'],
 
     }),
-    UsersModule,
+    
   ],
 })
 export class AppModule { };

@@ -1,19 +1,15 @@
+import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { isNil } from "lodash";
 
-
+@Injectable()
 export class ApiConfigService{
-    constructor(private configService: ConfigService) {
-
-    }
-
-
-    
+    constructor(private readonly configService: ConfigService) { }
     public get authConfig(){
         return {
-            PublicKey: this.getString(''), // JWT_PRIVATE_KEY
-            PrivateKey: this.getString(''), // JWT_PUBLIC_KEY
-            jwtExpirationTime: this.getNumber('') //JWT_EXPIRATION_TIME
+            PublicKey: this.getString('hghtdd6doiguggutff5tftffyfykkfyukyfukyfuf5f7gtugu'), // JWT_PRIVATE_KEY
+            PrivateKey: this.getString('ccyrjcftdydtdytkyglulihgiylglyilyigtityi'), // JWT_PUBLIC_KEY
+            jwtExpirationTime: this.getNumber('30') //JWT_EXPIRATION_TIME
         }
     }
 
