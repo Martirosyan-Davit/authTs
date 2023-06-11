@@ -3,14 +3,12 @@ import { RoleType } from "../../common/constants/role.type";
 import { TokenType } from "../../common/constants/token-type";
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { TokenPayloadDto } from "./dto/TokenPayloadDto";
+import { TokenPayloadDto } from "./dto/tokenPayloadDto";
 
 @Injectable()
 export class JwtTokenService {
 
   constructor(private jwtService: JwtService) { }
-
-
 
   async createAccessToken(data: {
     role: RoleType;

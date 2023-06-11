@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { UserService } from "../users/user.service";
-import { UserLoginDto } from "./dto/UserLoginDto";
-import { UserRegisterDto } from "./dto/UserRegisterDto";
-import { LoginPayloadDto } from "./dto/LoginPayloadDto";
+import { UserLoginDto } from "./dto/userLoginDto";
+import { UserRegisterDto } from "./dto/userRegisterDto";
+import { LoginPayloadDto } from "./dto/loginPayloadDto";
 import { JwtTokenService } from "./jwt-token.service";
 
 @Injectable()
@@ -12,8 +12,6 @@ export class AuthService {
         private usersService: UserService,
         private jwtTokenService: JwtTokenService,
     ) { }
-
-
 
     async validateUser(userLoginDto: UserLoginDto): Promise<LoginPayloadDto> {
         const userDto = await this.usersService.validate(userLoginDto);

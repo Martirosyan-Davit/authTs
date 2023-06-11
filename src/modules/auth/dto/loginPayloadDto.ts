@@ -1,5 +1,5 @@
 import { UserDto } from "../../users/dto/uses.dto";
-import { TokenPayloadDto } from "./TokenPayloadDto";
+import { TokenPayloadDto } from "./tokenPayloadDto";
 
 
 export class LoginPayloadDto {

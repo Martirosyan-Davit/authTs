@@ -18,6 +18,4 @@ export class UtilsProvider {
     static validatePassword(password: string, hashPass: string): Promise<boolean> {
         return bcrypt.compare(password, hashPass);
     }
-
-
 }

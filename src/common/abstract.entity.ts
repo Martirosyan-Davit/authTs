@@ -12,9 +12,9 @@ export interface IAbstractEntity<DTO extends AbstractDto = AbstractDto, O = neve
 }
 
 export abstract class AbstractEntity<
-DTO extends AbstractDto = AbstractDto,
- O = never> 
- implements IAbstractEntity<DTO , O> {
+    DTO extends AbstractDto = AbstractDto,
+    O = never>
+    implements IAbstractEntity<DTO, O> {
 
     @PrimaryGeneratedColumn('uuid')
     id: Uuid;

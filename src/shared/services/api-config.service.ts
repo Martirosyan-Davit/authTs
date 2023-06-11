@@ -8,12 +8,12 @@ dotenv.config();
 
 @Injectable()
 export class ApiConfigService {
-    constructor(private  configService: ConfigService) {}
+    constructor(private configService: ConfigService) { }
     public get authConfig() {
         return {
-            publicKey: this.getString('JWT_PUBLIC_KEY'), // JWT_PRIVATE_KEY
-            privateKey: this.getString('JWT_PRIVATE_KEY'), // JWT_PUBLIC_KEY
-            // jwtExpirationTime: this.getNumber('JWT_EXPIRATION_TIME'), //JWT_EXPIRATION_TIME            
+            publicKey: this.getString('JWT_PUBLIC_KEY'),
+            privateKey: this.getString('JWT_PRIVATE_KEY'),
+            // jwtExpirationTime: this.getNumber('JWT_EXPIRATION_TIME'),             
         }
     }
 

@@ -11,7 +11,7 @@ import { UseDto } from "../../decorater/use-dto.dekorater";
 @UseDto(UserDto)
 export class UserEntity extends AbstractEntity<UserDto> {
 
-    @Column({ type: 'varchar'})
+    @Column({ type: 'varchar' })
     name: string;
 
     @Column({ type: 'varchar', unique: true })

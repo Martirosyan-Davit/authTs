@@ -3,7 +3,6 @@ import { AbstractEntity } from "../abstract.entity";
 
 
 export abstract class AbstractDto {
-
     
     id: Uuid;
 

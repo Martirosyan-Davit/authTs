@@ -10,7 +10,7 @@ import { UserNotFoundException } from './exceptions/user-not-found.exception';
 import { UserIdIncorrectException } from './exceptions/user-id-incorrect.exception';
 import { UserAlreadyCreatedException } from './exceptions/user-already-created.exception';
 import { UserDto } from './dto/uses.dto';
-import { UserLoginDto } from '../auth/dto/UserLoginDto';
+import { UserLoginDto } from '../auth/dto/userLoginDto';
 import { UserNotFound } from 'src/exceptions/user-not-found';
 
 @Injectable()
