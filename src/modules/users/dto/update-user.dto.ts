@@ -26,5 +26,5 @@ export class UpdateUserDto {
         description: 'The password of user'
     })
     @IsString()
-    password: string;   
+    password: string;
 }

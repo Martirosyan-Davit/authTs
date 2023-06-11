@@ -6,6 +6,12 @@ import { isUUID } from 'class-validator';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UtilsProvider } from '../../providers/utils.provider';
+import { UserNotFoundException } from './exceptions/user-not-found.exception';
+import { UserIdIncorrectException } from './exceptions/user-id-incorrect.exception';
+import { UserAlreadyCreatedException } from './exceptions/user-already-created.exception';
+import { UserDto } from './dto/uses.dto';
+import { UserLoginDto } from '../auth/dto/UserLoginDto';
+import { UserNotFound } from 'src/exceptions/user-not-found';
 
 @Injectable()
 export class UserService {
@@ -15,109 +21,96 @@ export class UserService {
     ) { }
 
 
-    // Find single user
-    findOne(findData: FindOptionsWhere<UserEntity>): Promise<UserEntity | null> {
-        return this.userRepository.findOneBy(findData)
+    async validate(userLoginDto: UserLoginDto): Promise<UserDto> {
+        const userEntity = await this.userRepository.findOneBy({
+            email: userLoginDto.email
+        });
+
+        const passwordValid = await UtilsProvider.validatePassword(userLoginDto.password, userEntity.password)
+
+        if (!passwordValid) {
+            throw new UserNotFound();
+
+        }
+        return userEntity.toDto()
     }
 
-    async create(createUserDto: CreateUserDto): Promise<UserEntity> {
-        const email = createUserDto.email
+    async register(createUserDto: CreateUserDto): Promise<UserDto | null> {
         const user = await this.userRepository
             .createQueryBuilder('user')
-            .where('user.email = :email', { email })
+            .where('user.email = :email', { email: createUserDto.email })
             .getOne();
 
-        if (user)
-            throw new HttpException('User already created', HttpStatus.BAD_REQUEST);
+        if (user) {
+            throw new UserAlreadyCreatedException();
+        }
 
-        const userEntity = this.userRepository.create(createUserDto);
+        const passwordHash = UtilsProvider.generateHash(createUserDto.password);
 
-        userEntity.password = UtilsProvider.generateHash(userEntity.password);
+        const userEntity = this.userRepository.create({
+            ...createUserDto,
+            password: passwordHash
+        });
 
+        await this.userRepository.save(userEntity);
 
-         await this.userRepository.save(userEntity);
-
-         return userEntity;
+        return userEntity.toDto();
 
     }
 
 
-    async update(updateUserDto: UpdateUserDto, id: string): Promise<UserEntity> {
-        if (!isUUID(id))
-            throw new HttpException('User id not found', HttpStatus.BAD_REQUEST);
+    async update(updateUserDto: UpdateUserDto, id: string): Promise<UserDto> {
+        if (!isUUID(id)) {
+            throw new UserIdIncorrectException();
+        }
 
-        const userEntity = this.userRepository
+        const userEntity = await this.userRepository
             .createQueryBuilder('user')
             .where('user.id = :id', { id })
             .getOne();
 
-        if (!userEntity)
-            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        if (!userEntity) {
+            throw new UserNotFoundException();
+        }
 
-        this.userRepository
-            .merge(
-                await userEntity,
-                updateUserDto
-            );
+        this.userRepository.merge(userEntity, updateUserDto);
 
-        this.userRepository
-            .save(await userEntity);
+        this.userRepository.save(userEntity);
 
-        return userEntity;
-
+        return userEntity.toDto();
     }
 
-    async deleteById(id: string): Promise<UserEntity | null> {
-        if (!isUUID(id))
-            throw new HttpException('user id is incorrect', HttpStatus.BAD_REQUEST);
-
-        const currentUser = this.userRepository
+    async deleteById(id: string): Promise<UserDto | null> {
+        if (!isUUID(id)) {
+            throw new UserIdIncorrectException();
+        }
+        const currentUser = await this.userRepository
             .createQueryBuilder('user')
             .where('user.id = :id', { id })
             .getOne();
 
-        if ((await currentUser).id != id)
-            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-
+        if (currentUser.id != id) {
+            throw new UserNotFoundException();
+        }
         this.userRepository.delete(id);
 
-        return currentUser;
+        return currentUser.toDto();
     }
 
-    async findById(id: string): Promise<UserEntity | null> {
-        if (!isUUID(id))
-            throw new HttpException('user id is incorrect', HttpStatus.BAD_REQUEST);
-
-        const userEntity = this.userRepository
+    async findById(id: string): Promise<UserDto | null> {
+        if (!isUUID(id)) {
+            throw new UserIdIncorrectException();
+        }
+        const userEntity = await this.userRepository
             .createQueryBuilder('user')
             .where('user.id = :id', { id })
             .getOne();
 
-        if (!userEntity)
-            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-
-        return userEntity;
+        if (!userEntity) {
+            throw new UserNotFoundException();
+        }
+        return userEntity.toDto();
     }
-
-    async gelAll(id: string): Promise<UserEntity[]> {
-        if (!isUUID(id))
-            throw new HttpException('user id is incorrect', HttpStatus.BAD_REQUEST);
-
-        const currentUser = this.userRepository
-            .createQueryBuilder('user')
-            .where('user.id = :id', { id })
-            .getOne();
-
-        if ((await currentUser).role)
-            return await this.userRepository
-                .createQueryBuilder('users')
-                .getMany();
-    }
-
-
-
-
-
 }
 
 

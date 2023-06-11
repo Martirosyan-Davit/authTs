@@ -1,18 +1,19 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from "@nestjs/config";
-import { UsersModule } from "./modules/users/user.module";
+import { UserModule } from "./modules/users/user.module";
 import { UserEntity } from "./modules/users/user.entity";
 import { AuthModule } from "./modules/auth/auth.module";
+import { SharedModule } from "./shared/shared.module";
 
 
 @Module({
   controllers: [],
   providers: [],
   imports: [
-    UsersModule,
+    UserModule,
     AuthModule,
-
+    SharedModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env'
@@ -27,9 +28,7 @@ import { AuthModule } from "./modules/auth/auth.module";
       entities: [UserEntity],
       synchronize: true,
       migrations: ['src/migrations/*{.ts,.js}'],
-
     }),
-    
   ],
 })
 export class AppModule { };

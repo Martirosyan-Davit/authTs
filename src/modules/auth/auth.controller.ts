@@ -8,40 +8,26 @@ import { UserRegisterDto } from "./dto/UserRegisterDto";
 
 @Controller('auth')
 export class AuthController {
-
-
-
-    constructor(
-        private userService: UserService,
-        private authService: AuthService) { }
+    constructor(private authService: AuthService) { }
 
     @Post('login')
-    @HttpCode(HttpStatus.OK)  
+    @HttpCode(HttpStatus.OK)
     @ApiOkResponse({
         type: LoginPayloadDto,
         description: 'User info with access token',
     })
-    async userLogin(@Body() userLoginDTO: UserLoginDto) {
-        const userEntity = (await this.authService.userValidator(userLoginDTO));
-
-        const token = await this.authService.createAccessToken({
-            role: userEntity.role,
-            userId: userEntity.id,
-        })
-
-
-        return new LoginPayloadDto(userEntity, token) // TODO
-
+    userLogin(@Body() userLoginDTO: UserLoginDto) {
+        return this.authService.validateUser(userLoginDTO);
     }
 
     @Post('register')
     @HttpCode(HttpStatus.CREATED)
-    async userCreate(
-        @Body() userRegisterDto: UserRegisterDto) {
-
-        const createdUser = await this.userService.create(userRegisterDto);
-
-        return createdUser.toDto()
+    @ApiOkResponse({
+        type: LoginPayloadDto,
+        description: 'User register',
+    })
+    userRegister(@Body() userRegisterDto: UserRegisterDto) {
+        return this.authService.userRegister(userRegisterDto);
     }
 }
 

@@ -2,28 +2,24 @@ import { ApiProperty } from "@nestjs/swagger";
 import { AbstractEntity } from "../../common/abstract.entity";
 import { RoleType } from "../../common/constants/role.type";
 import { Column, Entity } from "typeorm";
+import { UserDto } from "./dto/uses.dto";
+import { UseDto } from "../../decorater/use-dto.dekorater";
 
 
 
 @Entity({ name: 'users' })
-export class UserEntity extends AbstractEntity {
+@UseDto(UserDto)
+export class UserEntity extends AbstractEntity<UserDto> {
 
-    @ApiProperty({example: 'Name', description:'Username'})
-    @Column({ type: 'varchar', nullable: false })
+    @Column({ type: 'varchar'})
     name: string;
 
-    @ApiProperty({example: 'user@gmail.com', description:'email'})
-    @Column({ type: 'varchar', unique: true, nullable: false })
+    @Column({ type: 'varchar', unique: true })
     email: string;
 
-    @ApiProperty({example: 'Dowerh214', description:'Password'})
-    @Column({ type: 'varchar', nullable: false })
+    @Column({ type: 'varchar' })
     password: string;
 
-    @ApiProperty({example: 'true', description:'Admin or note'})
     @Column({ type: 'enum', enum: RoleType, default: RoleType.USER })
     role: RoleType;
-
-
-
 }
